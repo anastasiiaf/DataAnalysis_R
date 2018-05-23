@@ -1,0 +1,71 @@
+
+INSTRUCTIONS:
+ 
+Dataset Description
+The dataset contains price information of indices, stocks, and commodities.
+Feel free to add as many plots as you want.
+feedcode = Feed short name
+ticker = instrument ticker; e.g. BRT for Brent Spot Indicator
+type = 1 = stock
+type = 64 = index
+type = 1024 = commodity
+fullname = Description of the instrument
+currency = denomination of the instrument
+date = date expressed as DD/MM/YYYY
+open = price at the opening of the trading day
+high = maximum price achieved during the trading day
+low = minimum price achieved during the trading day
+last = closing price of the trading day
+
+1 – Can we predict global markets?
+In this task, you will need to classify market states via some unsupervised learning algorithm such as clustering or similar. If you believe that there is other method that is more suitable, feel free to use it instead of clustering.
+We define market state as days where the global markets behaved similarly.
+E.g.
+Instrument A
+Instrument B
+Instrument C
+State
+1:
++1%
+-1%
++2%
+2:
+-1%
++1%
+-1%
+3:
+-2%
+-2%
+-2%
+
+ 
+For this task, you will need to use the instruments with Type = 64, and Type = 1024. Make sure that you create a subset containing commodities and the MSCI indices’ prices, using only the variable “last” which is the closing price of that day. Moreover, make sure that the prices are aligned to the correct date. For example, you can use the dates as the index of the subset.
+Calculate the log returns of the instruments. In R this is defined as diff(log(instrument)), and in Python, using Numpy, np.diff(np.log(instrument)).
+Mathematically:
+
+Split the new dataset in 85% for training, and 15% for testing
+Run a clustering or other unsupervised learning algorithm of your choice to infer the market states. Find the optimal number of clusters/centroids/classes: you can use X-means clustering or complement your algorithms with some Information Criterion such as Akaike or the Bayesian. If you cannot find the optimal number of clusters, use some number you can justify.
+With the array of Market States (the result from the previous point) calculate the transition probabilities. You can use a simple frequentist approach, i.e. 50% of the time, State “1” was followed by State “5”, since of the 100 occurrences of State “1” , 50 times it was followed by state “5”, and so on for the remaining probabilities.
+
+Bonus: Use a Hidden Markov Model to infer the transition probabilities instead of a frequentist approach
+Pick two of the clusters that you discover and describe them in a graphical way, for example a bar chart. Since the number of instruments is quite large, feel free to pick only 10.
+Make sure that the numbers that you display in the bar chart are the averages. E.g. On State “1”, MSCI Estonia returns on average 1%.
+Moreover, report on which dates this “market state” occurred.
+
+Bonus: Test whether this prediction model would be a good investment strategy
+ 
+
+2- Factor model
+In this task, we will perform a Principal Component Analysis to identify statistical factors using the stocks of the London Stock Exchange.
+For this task use the instruments with Type = 1 . Make sure you normalise the data! E.g. take the log returns, or whatever you see fit.
+Fit a principal component analysis on the variable “last”
+Select only the 3 first components (the first three with the highest loadings)
+Report which stocks belong to each component
+Bonus:
+Using the dataset factset_lse.csv, report:
+Average Price Earnings Ratio of the three components
+PE ratio = Price/Earnings
+Average Dividend Yield of the three components
+Dividend Yield = Dividend/Price
+
+ 
